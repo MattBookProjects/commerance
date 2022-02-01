@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="main-container">
+            
+                <div class="header">
+                    AUCTIONS
+                </div>
+                <div class="user-nav-container">
+                    {% if user.is_authenticated %}
+                        <div class="nav-item nav-link">
+                            <strong>{{ user.username }}</strong>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="{% url 'watchlist' %}">WATCHLIST</a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="{% url 'create_listing' %}">CREATE LISTING</a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">LOG OUT</a>
+                        </div>
+                    {% else %}
+                        <div class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">LOGIN</a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">REGISTER</a>
+                        </div>
+                    {% endif %}
+                 </div>
+              
+            
+            <div class="main-nav-container">
+                <div class="nav-item" >
+                    <a class="nav-link" href="{% url 'index' %}">ACTIVE LISTINGS</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">CATEGORIES</a>
+                </div>
+            </div>      
+        <!--<div>
+            {% if user.is_authenticated %}
+                Signed in as <strong>{{ user.username }}</strong>.
+            {% else %}
+                Not signed in.
+            {% endif %}
+        </div>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_listing' %}">Create Listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    -->
+            
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

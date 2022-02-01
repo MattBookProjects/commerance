@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+ 
+
+    {% for listing in listings %}
+        <div class="listing-container">
+            <div class="listing">
+                <div class="listing-img-div">
+                    <img class="listing-img" src="{{ listing.image_url }}" alt="No Image">
+                </div>
+                <div class="listing-text">
+                    <div class="listing-title"><a class="listing-link" href="{% url 'listing' id=listing.id %}">{{ listing.title }}</a></div>
+                    <div class="listing-price">
+                        {% if listing.latest_bid %}
+                            {{ listing.latest_bid }}$
+                        {% else %}
+                            {{ listing.starting_bid }}$
+                        {% endif %}
+                    </div>
+                    <div class="listing-meta">posted by: {{ listing.owner }} </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div>No matches for this category</div>
+    {% endfor %}
+{% endblock %}

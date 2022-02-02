@@ -118,3 +118,115 @@ body {
     color: black;
 }
 
+
+.listing-page-listing {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #efefef;
+    grid-column: span 3;
+}
+
+.listing-page-listing-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 800px;
+    min-width: 600px;
+    min-height: 600px;
+}
+
+.listing-page-listing-img {
+    max-width: 90%;
+    max-height: 90%;
+   
+}
+
+.listing-page-listing-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr repeat(3, 2fr) 6fr 1fr 2fr 2fr;
+    grid-gap: 1rem;  
+    align-items: center;
+}
+
+.listing-page-listing-title {
+    font-size: 50px;
+    font-weight: 600;
+    color: #104010;
+}
+
+.listing-page-listing-price {
+    font-size: 60px;
+    font-weight: 700;
+    color: black;
+}
+
+.listing-page-listing-category {
+    font-size: 30px;
+    font-weight: 400;
+    color: #202020;
+}
+
+.listing-page-listing-description {
+    font-size: 20px;
+    font-weight: 400;
+    color: #202020;
+}
+
+.listing-page-listing-meta {
+    font-size: 15px;
+    font-weight: 300;
+    color: #303030;
+}
+
+.listing-page-bid-button, .listing-page-close-button {
+    background-color: #88c588;
+    font-weight: 700;
+    font-size: 20px;
+    min-width: 150px;
+    min-height: 50px;
+}
+
+.listing-page-bid-input {
+    min-height: 50px;
+    font-size: 20px;
+}
+
+.listing-page-watchlist-button {
+    background-color: #88c588;
+    min-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.listing-page-comment-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: span 2;
+    background-color: #efefef;
+    min-height: 400px;
+}
+.listing-page-comment-form {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    gap: 1rem;
+    min-width: 95%;
+    min-height: 95%
+}
+
+.listing-page-comment-form-input {
+    width: 100%;
+    font-size: 20px;
+}
+
+.listing-page-comment-form-button {
+    align-self: flex-end;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+}
+

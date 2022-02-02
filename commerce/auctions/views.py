@@ -19,10 +19,10 @@ class CreateListingForm(forms.Form):
     category = forms.ChoiceField(label="", choices=choices, initial=(None, "None"), required=False)
 
 class CommentForm(forms.Form):
-    content = forms.CharField(label="", widget=forms.Textarea(attrs={"placeholer": "Comment here"}), max_length=1024)
+    content = forms.CharField(label="", widget=forms.Textarea(attrs={"placeholer": "Comment here", "class": "listing-page-comment-form-input"}), max_length=1024)
 
 class BidForm(forms.Form):
-    bid = forms.DecimalField(label="", widget=forms.TextInput(attrs={"placeholder": "Enter your bid here"}))
+    bid = forms.DecimalField(label="", widget=forms.TextInput(attrs={"placeholder": "Enter your bid here", "class": "listing-page-bid-input"}))
 
     def set_min_value(value):
         BidForm.bid.min_value = value

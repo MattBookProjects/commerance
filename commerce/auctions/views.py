@@ -213,7 +213,7 @@ def watchlist(request):
     if request.user.is_authenticated:
         
         return render(request, "auctions/index.html", {
-           "listings" : request.user.watchlist.filter(active=True)
+           "listings" : request.user.watchlist.all()
                 })
       
     else:
@@ -260,9 +260,10 @@ def close(request, id):
             listing = Listing.objects.get(id=id)
             print("method post")
             if listing.owner == request.user:
-                print("listing owner")
                 listing.active = False
-                listing.buyer = listing.bids.all().order_by('-value').first().owner
+                final_bid = listing.bids.all().order_by('-value').first()
+                if final_bid is not None:
+                    listing.buyer = final_bid.owner
                 listing.save()
         return HttpResponseRedirect(reverse("listing", kwargs={'id': id}))
     return HttpResponseRedirect(reverse("login"))

@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <ul>
+    <div class="categories-page-categories-container">
         {% for category in categories %}
-            <li><a href="{% url 'category' category=category.category %}">{{ category.category }}</a></li>
+            <div class="categories-page-category"><a class="categories-page-link" href="{% url 'category' category=category.category %}">{{ category.category }}</a></div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

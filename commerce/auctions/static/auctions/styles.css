@@ -283,3 +283,25 @@ body {
     padding: 1rem;  
 }
 
+.categories-page-categories-container {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.categories-page-category {
+    background-color: #88c588;
+    width: 40%;
+    padding: 1rem;
+    justify-self: center;
+    text-align: center;
+}
+
+.categories-page-link {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+

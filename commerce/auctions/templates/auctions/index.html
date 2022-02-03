@@ -23,6 +23,6 @@
             </div>
         </div>
     {% empty %}
-        <div>No matches for this category</div>
+        <div class="index-page-no-matches-label">{{ no_matches_message }}</div>
     {% endfor %}
 {% endblock %}

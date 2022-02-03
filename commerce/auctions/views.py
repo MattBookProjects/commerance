@@ -32,7 +32,8 @@ class BidForm(forms.Form):
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.filter(active=True)
+        "listings": Listing.objects.filter(active=True),
+        "no_mathces_message": "No active listings at this moment"
     })
 
 
@@ -206,15 +207,17 @@ def categories(request):
 
 def category(request, category):
     return render(request, "auctions/index.html", {
-        "listings" : Listing.objects.filter(category=Category.objects.get(category=category), active=True)
+        "listings" : Listing.objects.filter(category=Category.objects.get(category=category), active=True),
+        "no_matches_message" : "No active listings for this category"
     })
 
 def watchlist(request):
     if request.user.is_authenticated:
         
         return render(request, "auctions/index.html", {
-           "listings" : request.user.watchlist.all()
-                })
+           "listings" : request.user.watchlist.all(),
+           "no_matches_message" : "Your watchlist is empty"
+            })
       
     else:
         return HttpResponseRedirect(reverse("login"))

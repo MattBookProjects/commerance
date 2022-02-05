@@ -14,8 +14,8 @@
                 </div>
                 <div class="user-nav-container">
                     {% if user.is_authenticated %}
-                        <div class="nav-item nav-link">
-                            <strong>{{ user.username }}</strong>
+                        <div class="user-label-container">
+                            <strong class="user-label">Signed in as {{ user.username }}</strong>
                         </div>
                         <div class="nav-item">
                             <a class="nav-link" href="{% url 'watchlist' %}">WATCHLIST</a>
@@ -27,6 +27,9 @@
                             <a class="nav-link" href="{% url 'logout' %}">LOG OUT</a>
                         </div>
                     {% else %}
+                        <div>
+                            <strong class="user-label">Not singed in</strong>
+                        </div>
                         <div class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">LOGIN</a>
                         </div>

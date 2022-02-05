@@ -344,26 +344,26 @@ body {
     padding: 0.5rem;
 }
 
-.login-page-container {
+.login-page-container, .register-page-container {
     grid-column: span 2;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.login-page-form {
+.login-page-form, .register-page-form {
     width: 30%;
     display: flex;
     flex-direction: column;
 }
 
 
-.login-page-label {
+.login-page-label, .register-page-label {
     font-size: 2rem;
     margin: 0.5rem;
 }
 
-.login-page-bar {
+.login-page-bar, .register-page-bar {
     min-width: 100%;
     margin: 0.5rem;
     padding: 1rem;
@@ -371,16 +371,26 @@ body {
 }
 
 
-.login-page-button {
+.login-page-button, .register-page-button {
     font-size: 1.25rem;
     padding: 1rem;
     margin: 0.5rem;
     width: 30%;
 }
 
-#login-page-register-link {
+#login-page-register-link, #register-page-login-link {
     font-size: 1rem;
 }
+
+.user-label {
+    color: #88c588;
+    font-size: 2rem;
+}
+
+.user-label-container {
+    padding: 0.5rem;
+}
+
 
 
 

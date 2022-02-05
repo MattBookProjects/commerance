@@ -2,29 +2,30 @@
 
 {% block body %}
 
-    <h2>Register</h2>
+    <div class="register-page-container">
+        <div class="register-page-form">
+            <div class="register-page-label">Register:</div>
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Register">
-    </form>
-
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input class="register-page-bar" autofocus type="text" name="username" placeholder="Username">
+                </div>
+                <div>
+                    <input class="register-page-bar" type="email" name="email" placeholder="Email Address">
+                </div>
+                <div>
+                    <input class="register-page-bar" type="password" name="password" placeholder="Password">
+                </div>
+                <div>
+                    <input class="register-page-bar" type="password" name="confirmation" placeholder="Confirm Password">
+                </div>
+                <input class="register-page-button" type="submit" value="Register">
+            </form>
+            {% if message %}
+                <div class="register-page-error">{{ message }}</div>
+            {% endif %}
+            <div class="register-page-label" id="register-page-login-link">Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
+          
 
 {% endblock %}

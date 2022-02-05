@@ -314,3 +314,75 @@ body {
     text-decoration: none;
 }
 
+.create-listing-page-container {
+    background-color: #efefef;
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.create-listing-page-form-title, .create-listing-page-form-image-url, .create-listing-page-form-starting-bid,  .create-listing-page-form-button {
+    width: 15%;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.create-listing-page-form-description {
+    font-size: 1rem;
+    width: 50%;
+    padding: 0.5rem;
+    aspect-ratio: 2;
+}
+
+.create-listing-page-form-category {
+    text-align: center;
+    width: 15%;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.login-page-container {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-page-form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.login-page-label {
+    font-size: 2rem;
+    margin: 0.5rem;
+}
+
+.login-page-bar {
+    min-width: 100%;
+    margin: 0.5rem;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+
+.login-page-button {
+    font-size: 1.25rem;
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 30%;
+}
+
+#login-page-register-link {
+    font-size: 1rem;
+}
+
+
+
+
+

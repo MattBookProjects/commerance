@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{% url 'create_listing' %}" method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Create listing">
-    </form>
+        <form class="create-listing-page-container" action="{% url 'create_listing' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input class="create-listing-page-form-button" type="submit" value="Create listing">
+        </form>
 {% endblock %}

@@ -10,13 +10,13 @@ import datetime
 
 
 class CreateListingForm(forms.Form):
-    title = forms.CharField(label="", widget=forms.TextInput(attrs={"placeholder": "Title"}), max_length=64)
-    description = forms.CharField(label="", widget=forms.Textarea(attrs={"placeholder": "Description"}), max_length=1024)
-    starting_bid = forms.DecimalField(label="", widget=forms.TextInput(attrs={"placeholder": "Starting bid"}), decimal_places=2, max_digits=20, min_value=0)
-    image_url = forms.URLField(label="", widget=forms.TextInput(attrs={"placeholer": "Image url (optional)"}), required=False)
+    title = forms.CharField(label="", widget=forms.TextInput(attrs={"placeholder" : "Title", "class" : "create-listing-page-form-title"}), max_length=64)
+    description = forms.CharField(label="", widget=forms.Textarea(attrs={"placeholder" : "Description",  "class" : "create-listing-page-form-description"}), max_length=1024)
+    starting_bid = forms.DecimalField(label="", widget=forms.TextInput(attrs={"placeholder": "Starting bid",  "class" : "create-listing-page-form-starting-bid"}), decimal_places=2, max_digits=20, min_value=0)
+    image_url = forms.CharField(label="", widget=forms.TextInput(attrs={"placeholder" : "Image url (optional)",  "class" : "create-listing-page-form-image-url"}), required=False)
     choices = [(category, category.category) for category in Category.objects.all()]
     choices.append((None, "None"))
-    category = forms.ChoiceField(label="", choices=choices, initial=(None, "None"), required=False)
+    category = forms.ChoiceField(label="Category (optional)", choices=choices, initial=(None, "None"), required=False, widget=forms.Select(attrs={"class" : "create-listing-page-form-category"}))
 
 class CommentForm(forms.Form):
     content = forms.CharField(label="", widget=forms.Textarea(attrs={"placeholer": "Comment here", "class": "listing-page-comment-form-input"}), max_length=1024)
@@ -26,6 +26,8 @@ class BidForm(forms.Form):
 
     def set_min_value(value):
         BidForm.bid.min_value = value
+
+
 
 
 

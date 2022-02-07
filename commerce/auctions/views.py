@@ -24,18 +24,15 @@ class CommentForm(forms.Form):
 class BidForm(forms.Form):
     bid = forms.DecimalField(label="", widget=forms.TextInput(attrs={"placeholder": "Enter your bid here", "class": "listing-page-bid-input"}))
 
-    def set_min_value(value):
-        BidForm.bid.min_value = value
 
 
-
-
+    
 
 
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.filter(active=True),
-        "no_mathces_message": "No active listings at this moment"
+        "no_matches_message": "No active listings at this moment"
     })
 
 
@@ -103,6 +100,7 @@ def create_listing(request):
                 category = form.cleaned_data["category"]
                 listing = Listing(title=title, description=description, starting_bid=starting_bid, image_url=image_url, owner=request.user, category=None)
                 listing.save()
+                request.user.watchlist.add(listing)
                 return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/create_listing.html", {
@@ -112,94 +110,79 @@ def create_listing(request):
         return HttpResponseRedirect(reverse("index"))
 
 def listing(request, id):
-    '''if request.user.is_authenticated:
-        if request.user.watchlist.all():
-            return render(request, "auctions/listing.html", {
-                "listing": Listing.objects.get(id=id),
-                "in_watchlist": True
-            })
-        else:
-            return render(request, "auctions/listing.html", {
-                "listing": Listing.objects.get(id=id)
-            })
-    else:'''
     listing = Listing.objects.get(id=id)
+    context = {
+                    "comments" : listing.comments.all().order_by("-date"),
+                    "comment_form" : CommentForm(),
+                    "listing": listing,
+                }
     if request.method =="POST":
-        bid_form = BidForm(request.POST)
-        if bid_form.is_valid():
-            user_bid =  bid_form.cleaned_data["bid"]
-            if listing.bids.count() > 0:
-                current_bid = listing.bids.all().order_by("-value").first().value                
-                if user_bid < current_bid and Bid.objects.get(value=current_bid, owner=request.user).owner != request.user:
-                    bid = Bid(listing = listing, value=user_bid, owner=request.user)
-                    bid.save()
-                    return render(request, "auctions/listing.html", {
-                        "bid": listing.bids.all().order_by("-value").first().value,
-                        "bid_form": bid_form,
-                        "comments" : listing.comments.all().order_by("-date"),
-                        "comment_form" : CommentForm(),
-                        "listing": listing
-                    })
-                elif Bid.objects.get(value=current_bid, owner=request.user).owner == request.user:
-                        
-                    return render(request, "auctions/listing.html", {
-                        "bid": listing.bids.all().order_by("-value").first().value,
-                        "bid_form": bid_form,
-                        "comments" : listing.comments.all().order_by("-date"),
-                        "comment_form" : CommentForm(),
-                        "listing": listing,
-                        "bid_error": "Your last bid is the current"
+        if request.user.is_authenticated:
+            bid_form = BidForm(request.POST)
+            if bid_form.is_valid():
+                user_bid =  bid_form.cleaned_data["bid"]
+                if request.user == listing.owner:
+                    context.update({
+                            "bid_form": BidForm(), 
+                            "bid_error": "You can't bid your own listings"
+                            })
+                    return render(request, "auctions/listing.html", context)
 
-                    })
+                elif listing.latest_bid is not None:
+                    if listing.bids.all().order_by("-value").first().owner == request.user:
+                        context.update({
+                            "bid_form": BidForm(), 
+                            "bid_error": "You can't overbid yourself."
+                            })
+                        return render(request, "auctions/listing.html", context)
+
+                    elif user_bid <= listing.latest_bid:
+                        context.update({
+                            "bid_form": bid_form, 
+                            "bid_error": "Your bid must be larger than the latest bid"
+                        })
+                        return render(request, "auctions/listing.html", context)
+                        
+                    else:
+                        bid = Bid(listing = listing, value=user_bid, owner=request.user)
+                        bid.save()
+                        listing.latest_bid = user_bid
+                        listing.save()
+                        context.update({
+                            "bid_form": BidForm()
+                        })
+                        return render(request, "auctions/listing.html", context)
+                else:
+                    if user_bid < listing.starting_bid:
+                        context.update({
+                            "bid_form": bid_form,
+                            "bid_error": "Your bid must be equal or greater than starting bid"    
+                        })
+                        return render(request, "auctions/listing.html", context)
+                    else:
+                        bid = Bid(listing = listing, value=user_bid, owner=request.user)
+                        bid.save()
+                        listing.latest_bid = user_bid
+                        listing.save()
+                        context.update({
+                            "bid_form": BidForm()
+                        })
+                        return render(request, "auctions/listing.html", context)
             else:
-                if user_bid > listing.starting_bid:
-                    bid = Bid(listing = listing, value=user_bid, owner=request.user)
-                    bid.save()
-                    return render(request, "auctions/listing.html", {
-                        "bid": listing.bids.all().order_by("-value").first().value,
-                        "bid_form": bid_form,
-                        "comments" : listing.comments.all().order_by("-date"),
-                        "comment_form" : CommentForm(),
-                        "listing": listing
-                    })
-        if listing.bids.count() > 0:
-            return render(request, "auctions/listing.html", {
-                "bid": listing.bids.all().order_by("-value").first().value,
-                "bid_form": bid_form,
-                "comments" : listing.comments.all().order_by("-date"),
-                "comment_form" : CommentForm(),
-                "listing": listing,
-                "bid_error": "Bid must be a number larger than current bid"
+                context.update({
+                    "bid_form": bid_form
                 })
+                return render(request, "auctions/listing.html", context)
         else:
-            return render(request, "auctions/listing.html", {
-                "bid_form": bid_form,
-                "comments" : listing.comments.all().order_by("-date"),
-                "comment_form" : CommentForm(),
-                "listing": listing,
-                "bid_error": "Bid must be a number larger than current bid"
-            })
+            return HttpResponseRedirect(reverse("login"))
+
+    context.update({
+        "bid_form": BidForm()
+    })
+    return render(request, "auctions/listing.html", context)     
  
 
-    bid_form = BidForm()
-    if listing.bids.count() > 0:
-        return render(request, "auctions/listing.html", {
-            "listing": listing, 
-            "comment_form" : CommentForm(),
-            "bid_form" : bid_form,
-            "bid" : listing.bids.all().order_by("-value").first().value,
-            #"comments" : Comment.objects.filter(listing=Listing.objects.get(id=id)).order_by("date")
-            "comments" : listing.comments.all().order_by("-date")
-
-    })
-    else:
-        return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "comment_form" : CommentForm(),
-            "bid_form" : bid_form,
-            "comments" : listing.comments.all().order_by("-date")
-
-        })
+   
 
 def categories(request):
     return render(request, "auctions/categories.html", {
@@ -259,7 +242,6 @@ def comment(request, id):
         return HttpResponseRedirect(reverse("login"))
 
 def close(request, id):
-    print("close")
     if request.user.is_authenticated:
         if request.method == "POST":
             listing = Listing.objects.get(id=id)
@@ -273,14 +255,3 @@ def close(request, id):
         return HttpResponseRedirect(reverse("listing", kwargs={'id': id}))
     return HttpResponseRedirect(reverse("login"))
 
-'''
-def bid(request, id):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            form = BidForm(request.POST)
-            if form.is_valid():
-                value = form.cleaned_data["bid"]
-                bid = Bid(listing=Listing.objects.get(id=id), value=value, owner=request.user)
-                bid.save()
-        return HttpResponseRedirect(reverse("listing", kwargs={'id': id}))
-    return HttpResponseRedirect(reverse("login"))'''

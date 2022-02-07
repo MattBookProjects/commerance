@@ -156,7 +156,7 @@ body {
 .listing-page-listing-content {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr repeat(3, 2fr) 6fr 1fr 2fr 2fr;
+    grid-template-rows: 1fr repeat(4, 2fr) 6fr 1fr 2fr 1fr 2fr;
     grid-gap: 1rem;  
     align-items: center;
 }
@@ -168,7 +168,7 @@ body {
 }
 
 .listing-page-listing-price {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: 700;
     color: black;
 }
@@ -378,8 +378,12 @@ body {
     width: 30%;
 }
 
-#login-page-register-link, #register-page-login-link {
+#login-page-register-link, #register-page-login-link, #login-page-error, #register-page-error {
     font-size: 1rem;
+}
+
+#login-page-error, #register-page-error {
+    color: red;
 }
 
 .user-label {
@@ -388,6 +392,16 @@ body {
 }
 
 .user-label-container {
+    padding: 0.5rem;
+}
+
+.error-message {
+    color: red;
+}
+
+.no-matches-message {
+    grid-column: span 2;
+    font-size: 2rem;
     padding: 0.5rem;
 }
 

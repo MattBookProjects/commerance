@@ -23,9 +23,10 @@
                 <input class="register-page-button" type="submit" value="Register">
             </form>
             {% if message %}
-                <div class="register-page-error">{{ message }}</div>
+                <div class="register-page-label" id="register-page-error">{{ message }}</div>
             {% endif %}
             <div class="register-page-label" id="register-page-login-link">Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
-          
+        </div>
+    </div>
 
 {% endblock %}

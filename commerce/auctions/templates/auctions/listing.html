@@ -13,13 +13,19 @@
                 <div></div>
                 <div class="listing-page-listing-title">{{ listing.title }}</div>           
                 {% if listing.active %}
-                    <div class="listing-page-listing-price">
                         {% if listing.latest_bid %}
-                            {{ listing.latest_bid }}$
+                            <div class="listing-page-listing-price">
+                                Latest bid: {{ listing.latest_bid }}$
+                            </div>
+                            <div></div>
                         {% else %}
-                            {{ listing.starting_bid }}$
+                            <div class="listing-page-listing-price">
+                                No bids yet. 
+                            </div>
+                            <div class="listing-page-listing-price">
+                                Minimal bid: {{ listing.starting_bid }}$
+                            </div>
                         {% endif %}
-                    </div>
                 {% else %}
                         {% if user.is_authenticated and listing.buyer == user %}
                             <div class="listing-page-user-bought-label">
@@ -60,6 +66,11 @@
                 {% else %}
                     <div></div>
                 {% endif %}
+                <div class="error-message">
+                    {% if bid_error %}
+                        {{ bid_error }}
+                    {% endif %}
+                </div>
                 {% if user.is_authenticated %}
                     {% if listing in user.watchlist.all %}
                         <div>
@@ -99,6 +110,6 @@
                 </div>
             </div>
         {% empty %}
-            <div>No comments yet.</div>
+            <div class="no-matches-message">No comments yet.</div>
         {% endfor %}
 {% endblock %}
